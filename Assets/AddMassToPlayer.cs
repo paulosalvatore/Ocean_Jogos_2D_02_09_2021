@@ -4,10 +4,25 @@ using UnityEngine;
 
 public class AddMassToPlayer : MonoBehaviour
 {
+    GameObject player;
+
+    Rigidbody2D rb;
+
+    float initialMass;
+
+    // Public faz com que a Unity exiba esse valor
+    public float mass;
+
+    public float duration;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        rb = player.GetComponent<Rigidbody2D>();
+
+        initialMass = rb.mass;
     }
 
     // Update is called once per frame
@@ -24,19 +39,13 @@ public class AddMassToPlayer : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Player"))
         {
-            var rb = other.GetComponent<Rigidbody2D>();
+            rb.mass = mass;
 
-            rb.mass = 50;
-
-            Invoke("ResetMass", 15);
+            Invoke("ResetMass", duration);
         }
     }
 
     void ResetMass() {
-        var player = GameObject.FindGameObjectWithTag("Player");
-
-        var rb = player.GetComponent<Rigidbody2D>();
-
-        rb.mass = 1;
+        rb.mass = initialMass;
     }
 }
