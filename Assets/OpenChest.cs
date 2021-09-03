@@ -10,12 +10,24 @@ public class OpenChest : MonoBehaviour
 
     public GameObject statue;
 
+    public AudioSource audioOpenChest;
+
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Stone"))
         {
-            statue.SetActive(false);
-
-            closedChest.sprite = openChestSprite;
+            StartCoroutine(Open());
         }
+    }
+
+    IEnumerator Open() {
+        // Desativa a estátua
+        statue.SetActive(false);
+
+        // Aguarda um segundo
+        yield return new WaitForSeconds(1.5f);
+
+        closedChest.sprite = openChestSprite;
+
+        audioOpenChest.Play();
     }
 }
